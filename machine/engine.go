@@ -11,7 +11,7 @@ type Engine struct {
 	input        string
 	currentInstr int
 	mem          memory
-	loopStack    []int
+	loopStack    stack
 	steps        int
 	limit        int
 }
@@ -28,7 +28,7 @@ func NewEngine(
 	}
 	return Engine{
 		input:        input,
-		loopStack:    []int{},
+		loopStack:    stack{},
 		mem:          newMemory(),
 		currentInstr: 0,
 		steps:        0,
@@ -81,7 +81,7 @@ func (e *Engine) Eval() error {
 				return errors.New("invalid input")
 			}
 		case "[":
-			e.loopStack = append(e.loopStack, e.currentInstr)
+			e.loopStack.push(e.currentInstr)
 			// 見てるアドレスに格納された値が0だったら対応するカッコを探す
 			if e.mem.currentAddr.Value == 0 {
 				braces := 0
@@ -102,9 +102,9 @@ func (e *Engine) Eval() error {
 			}
 		case "]":
 			if e.mem.currentAddr.Value != 0 {
-				e.currentInstr = e.loopStack[len(e.loopStack)-1]
+				e.currentInstr = e.loopStack.peek()
 			} else {
-				e.loopStack = e.loopStack[:len(e.loopStack)-1]
+				e.loopStack.pop()
 			}
 		}
 

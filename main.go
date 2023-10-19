@@ -20,7 +20,7 @@ func main() {
 
 	engine := machine.NewEngine(
 		args.input,
-		1000,
+		1000000000,
 	)
 	if err := engine.Eval(); err != nil {
 		log.Fatal(err)
