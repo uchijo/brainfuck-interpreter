@@ -8,7 +8,7 @@ import (
 
 func main() {
 	engine := machine.NewEngine(
-		"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.",
+		",.",
 		1000,
 	)
 	if err := engine.Eval(); err != nil {

@@ -3,6 +3,8 @@ package machine
 import (
 	"errors"
 	"fmt"
+	"strconv"
+	"unicode/utf8"
 )
 
 type Engine struct {
@@ -63,7 +65,21 @@ func (e *Engine) Eval() error {
 		case ".":
 			fmt.Printf("%v", e.mem.CurrentString())
 		case ",":
-			return errors.New(", is not implemented")
+			var in string
+			_, err := fmt.Scan(&in)
+			if err != nil {
+				return err
+			}
+			result, err := strconv.Atoi(in)
+			switch {
+			case err == nil:
+				e.mem.SetInt(result)
+			case len(in) == 1:
+				r, _ := utf8.DecodeRuneInString(in)
+				e.mem.SetRune(r)
+			default:
+				return errors.New("invalid input")
+			}
 		case "[":
 			return errors.New("[ ] is not implemented")
 		case "]":

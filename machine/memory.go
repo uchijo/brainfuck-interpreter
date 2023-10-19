@@ -30,6 +30,14 @@ func (e memory) CurrentString() string {
 	return string(e.currentAddr.Value)
 }
 
+func (e memory) SetInt(v int) {
+	e.currentAddr.Value = int32(v)
+}
+
+func (e memory) SetRune(v rune) {
+	e.currentAddr.Value = v
+}
+
 func Hoge() {
 	fmt.Println("hoge")
 }
