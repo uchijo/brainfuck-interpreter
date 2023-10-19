@@ -11,11 +11,11 @@ type memory struct {
 }
 
 func (e *memory) GoNext() {
-	e.currentAddr = e.currentAddr.next
+	e.currentAddr = e.currentAddr.Next()
 }
 
 func (e *memory) GoPrev() {
-	e.currentAddr = e.currentAddr.prev
+	e.currentAddr = e.currentAddr.Prev()
 }
 
 func (e memory) Incr() {
