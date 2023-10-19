@@ -1,26 +1,25 @@
 package machine
 
-type Node struct {
-	next  *Node
-	prev  *Node
+type node struct {
+	next  *node
+	prev  *node
 	Value rune
 }
 
-func (n *Node) Next() *Node {
+func (n *node) Next() *node {
 	if n.next == nil {
-		n.next = &Node{
+		n.next = &node{
 			prev: n,
 		}
 	}
 	return n.next
 }
 
-func (n *Node) Prev() *Node {
+func (n *node) Prev() *node {
 	if n.prev == nil {
-		n.prev = &Node{
+		n.prev = &node{
 			next: n,
 		}
 	}
 	return n.prev
 }
-
