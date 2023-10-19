@@ -81,9 +81,31 @@ func (e *Engine) Eval() error {
 				return errors.New("invalid input")
 			}
 		case "[":
-			return errors.New("[ ] is not implemented")
+			e.loopStack = append(e.loopStack, e.currentInstr)
+			// 見てるアドレスに格納された値が0だったら対応するカッコを探す
+			if e.mem.currentAddr.Value == 0 {
+				braces := 0
+				for i := e.currentInstr + 1; i < len(e.input); i++ {
+					if e.input[i:i+1] == "[" {
+						braces++
+						continue
+					}
+					if e.input[i:i+1] == "]" {
+						if braces == 0 {
+							e.currentInstr = i
+							break
+						} else {
+							braces--
+						}
+					}
+				}
+			}
 		case "]":
-			return errors.New("[ ] is not implemented")
+			if e.mem.currentAddr.Value != 0 {
+				e.currentInstr = e.loopStack[len(e.loopStack)-1]
+			} else {
+				e.loopStack = e.loopStack[:len(e.loopStack)-1]
+			}
 		}
 
 		// 命令レジスタを進める
