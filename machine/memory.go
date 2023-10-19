@@ -2,31 +2,31 @@ package machine
 
 import "fmt"
 
-func NewEnv() Memory {
-	return Memory{currentAddr: &node{}}
+func newMemory() memory {
+	return memory{currentAddr: &node{}}
 }
 
-type Memory struct {
+type memory struct {
 	currentAddr *node
 }
 
-func (e *Memory) GoNext() {
+func (e *memory) GoNext() {
 	e.currentAddr = e.currentAddr.next
 }
 
-func (e *Memory) GoPrev() {
+func (e *memory) GoPrev() {
 	e.currentAddr = e.currentAddr.prev
 }
 
-func (e Memory) Incr() {
+func (e memory) Incr() {
 	e.currentAddr.Value++
 }
 
-func (e Memory) Decr() {
+func (e memory) Decr() {
 	e.currentAddr.Value--
 }
 
-func (e Memory) CurrentString() string {
+func (e memory) CurrentString() string {
 	return string(e.currentAddr.Value)
 }
 

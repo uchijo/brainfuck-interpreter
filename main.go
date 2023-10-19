@@ -1,28 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"strings"
+	"log"
 
 	"github.com/uchijo/brainfuck-interpreter/machine"
 )
 
 func main() {
-	input := "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++."
-	env := machine.NewEnv()
-	fmt.Println(env)
-	eval(input)
-}
-
-func eval(input string) {
-	env := machine.NewEnv()
-	for _, char := range strings.Split(input, "") {
-		switch char {
-		case "+":
-			env.Incr()
-		case ".":
-			fmt.Printf("%v", env.CurrentString())
-		}
+	engine := machine.NewEngine(
+		"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.",
+		1000,
+	)
+	if err := engine.Eval(); err != nil {
+		log.Fatal(err)
 	}
 }
-
