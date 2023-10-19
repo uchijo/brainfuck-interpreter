@@ -55,15 +55,15 @@ func (e *Engine) Eval() error {
 		// 実行
 		switch instr {
 		case "+":
-			e.mem.Incr()
+			e.mem.incr()
 		case "-":
-			e.mem.Decr()
+			e.mem.decr()
 		case ">":
-			e.mem.GoNext()
+			e.mem.goNext()
 		case "<":
-			e.mem.GoPrev()
+			e.mem.goPrev()
 		case ".":
-			fmt.Printf("%v", e.mem.CurrentString())
+			fmt.Printf("%v", e.mem.currentString())
 		case ",":
 			var in string
 			_, err := fmt.Scan(&in)
@@ -73,10 +73,10 @@ func (e *Engine) Eval() error {
 			result, err := strconv.Atoi(in)
 			switch {
 			case err == nil:
-				e.mem.SetInt(result)
+				e.mem.setInt(result)
 			case len(in) == 1:
 				r, _ := utf8.DecodeRuneInString(in)
-				e.mem.SetRune(r)
+				e.mem.setRune(r)
 			default:
 				return errors.New("invalid input")
 			}

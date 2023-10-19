@@ -1,7 +1,5 @@
 package machine
 
-import "fmt"
-
 func newMemory() memory {
 	return memory{currentAddr: &node{}}
 }
@@ -10,34 +8,30 @@ type memory struct {
 	currentAddr *node
 }
 
-func (e *memory) GoNext() {
+func (e *memory) goNext() {
 	e.currentAddr = e.currentAddr.Next()
 }
 
-func (e *memory) GoPrev() {
+func (e *memory) goPrev() {
 	e.currentAddr = e.currentAddr.Prev()
 }
 
-func (e memory) Incr() {
+func (e memory) incr() {
 	e.currentAddr.Value++
 }
 
-func (e memory) Decr() {
+func (e memory) decr() {
 	e.currentAddr.Value--
 }
 
-func (e memory) CurrentString() string {
+func (e memory) currentString() string {
 	return string(e.currentAddr.Value)
 }
 
-func (e memory) SetInt(v int) {
+func (e memory) setInt(v int) {
 	e.currentAddr.Value = int32(v)
 }
 
-func (e memory) SetRune(v rune) {
+func (e memory) setRune(v rune) {
 	e.currentAddr.Value = v
-}
-
-func Hoge() {
-	fmt.Println("hoge")
 }
