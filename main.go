@@ -24,11 +24,29 @@ func main() {
 		panic(err)
 	}
 
+	parsed := parseProgram(content)
 	engine := machine.NewEngine(
-		content,
+		parsed,
 		100000000,
 	)
 	if err := engine.Eval(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func parseProgram(input []byte) []byte {
+	output := []byte{}
+	for _, v := range input {
+		if v == '+' ||
+			v == '-' ||
+			v == '>' ||
+			v == '<' ||
+			v == '[' ||
+			v == ']' ||
+			v == '.' ||
+			v == ',' {
+			output = append(output, v)
+		}
+	}
+	return output
 }
