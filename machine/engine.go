@@ -8,7 +8,7 @@ import (
 )
 
 type Engine struct {
-	input        string
+	input        []byte
 	currentInstr int
 	mem          memory
 	loopStack    stack
@@ -17,8 +17,8 @@ type Engine struct {
 }
 
 func NewEngine(
-	// input string
-	input string,
+	// input
+	input []byte,
 
 	// steps limit to hang due to unexpected infinite loop. must be bigger than 1000
 	limit int,
@@ -50,21 +50,21 @@ func (e *Engine) Eval() error {
 		}
 
 		// 命令フェッチ
-		instr := e.input[e.currentInstr : e.currentInstr+1]
+		instr := e.input[e.currentInstr]
 
 		// 実行
 		switch instr {
-		case "+":
+		case '+':
 			e.mem.incr()
-		case "-":
+		case '-':
 			e.mem.decr()
-		case ">":
+		case '>':
 			e.mem.goNext()
-		case "<":
+		case '<':
 			e.mem.goPrev()
-		case ".":
+		case '.':
 			fmt.Printf("%v", e.mem.currentString())
-		case ",":
+		case ',':
 			var in string
 			_, err := fmt.Scan(&in)
 			if err != nil {
@@ -80,17 +80,17 @@ func (e *Engine) Eval() error {
 			default:
 				return errors.New("invalid input")
 			}
-		case "[":
+		case '[':
 			e.loopStack.push(e.currentInstr)
 			// 見てるアドレスに格納された値が0だったら対応するカッコを探す
 			if e.mem.currentAddr.Value == 0 {
 				braces := 0
 				for i := e.currentInstr + 1; i < len(e.input); i++ {
-					if e.input[i:i+1] == "[" {
+					if e.input[i] == '[' {
 						braces++
 						continue
 					}
-					if e.input[i:i+1] == "]" {
+					if e.input[i] == ']' {
 						if braces == 0 {
 							e.currentInstr = i
 							break
@@ -100,7 +100,7 @@ func (e *Engine) Eval() error {
 					}
 				}
 			}
-		case "]":
+		case ']':
 			if e.mem.currentAddr.Value != 0 {
 				e.currentInstr = e.loopStack.peek()
 			} else {

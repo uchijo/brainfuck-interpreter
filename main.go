@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 
 	"github.com/uchijo/brainfuck-interpreter/machine"
 )
@@ -18,8 +19,13 @@ func main() {
 		input: rawArgs[0],
 	}
 
+	content, err := os.ReadFile(args.input)
+	if err != nil {
+		panic(err)
+	}
+
 	engine := machine.NewEngine(
-		args.input,
+		content,
 		100000000,
 	)
 	if err := engine.Eval(); err != nil {
