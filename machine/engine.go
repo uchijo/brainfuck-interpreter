@@ -84,6 +84,7 @@ func (e *Engine) Eval() error {
 			e.loopStack.push(e.currentInstr)
 			// 見てるアドレスに格納された値が0だったら対応するカッコを探す
 			if e.mem.currentAddr.Value == 0 {
+				e.loopStack.pop()
 				braces := 0
 				for i := e.currentInstr + 1; i < len(e.input); i++ {
 					if e.input[i] == '[' {
