@@ -27,7 +27,7 @@ func main() {
 	parsed := parseProgram(content)
 	engine := machine.NewEngine(
 		parsed,
-		100000000,
+		1000000000000000000,
 	)
 	if err := engine.Eval(); err != nil {
 		log.Fatal(err)
